@@ -23,14 +23,13 @@ class ArtList extends React.Component {
     return (
         <FlatList
           style={styles.list}
-          data={this.props.articles}
-          extraData={this.props.favoritesFilm}
-          keyExtractor={(item) => item.id.toString()}
+          data={this.props.data}
+          extraData={this.props.favoritesArt}
+          keyExtractor={(item) => item.author}
           renderItem={({item}) => (
             <ArtItem
-              film={item}
-            //  isFilmFavorite={(this.props.favoritesFilm.findIndex(film => film.id === item.id) !== -1) ? true : false} // Bonus pour différencier les films déjà présent dans notre state global et qui n'ont donc pas besoin d'être récupérés depuis l'API
-              displayDetailForFilm={this._displayDetailForFilm}
+              data={item}
+
             />
           )}
           onEndReachedThreshold={0.5}

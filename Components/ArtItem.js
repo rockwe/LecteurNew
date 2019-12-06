@@ -8,8 +8,8 @@ import FadeIn from '../Animations/FadeIn'
 class ArtItem extends React.Component {
 
   _displayFavoriteImage() {
-    if (this.props.isFilmFavorite) {
-      // Si la props isFilmFavorite vaut true, on affiche le 🖤
+    if (this.props.isArtFavorite) {
+
       return (
         <Image
           style={styles.favorite_image}
@@ -20,27 +20,24 @@ class ArtItem extends React.Component {
   }
 
   render() {
-    const { articles, displayDetailForFilm } = this.props
+    const { data, displayDetailForArt } = this.props
     return (
       <FadeIn>
         <TouchableOpacity
           style={styles.main_container}
-          onPress={() => displayDetailForFilm(articles.id)}>
+          onPress={() => displayDetailForArt(data.source.id)}>
           <Image
             style={styles.image}
-            source={{uri: getImageFromApi(articles.author)}}
+            source={{uri: data.urlToImage}}
           />
           <View style={styles.content_container}>
             <View style={styles.header_container}>
               {this._displayFavoriteImage()}
-              <Text style={styles.title_text}>{articles.title}</Text>
-              <Text style={styles.vote_text}>{articles.author}</Text>
-            </View>
-            <View style={styles.description_container}>
-              <Text style={styles.description_text} numberOfLines={6}>{articles.overview}</Text>
+              <Text style={styles.title_text}>{data.title}</Text>
+
             </View>
             <View style={styles.date_container}>
-              <Text style={styles.date_text}>Sorti le 13/12/2017</Text>
+              <Text style={styles.date_text}>{data.publishedAt}</Text>
             </View>
           </View>
         </TouchableOpacity>

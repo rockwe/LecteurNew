@@ -5,6 +5,7 @@ import { StyleSheet, View, TextInput, Button, Text, FlatList, ActivityIndicator 
 import ArtItem from './ArtItem'
 import Loading from '../Components/Loading'
 import API from '../API'
+import ArtList from './ArtList';
 
 class Accueil extends React.Component {
 
@@ -48,18 +49,17 @@ class Accueil extends React.Component {
 
 
   render() {
-    console.log('dooooooooooooo'+this.state.data)
-    console.log('ddddpage--'+ this.state.total_pages);
+    console.log('dooooooooooooo',this.state.data)
     return (
         <View style={{ flex: 1 }}>
           {this.state.data ? (
               <>
-                <View >
-                  <Text>{this.state.data.title}</Text>
-                </View>
-                <View >
-                  <Text>tttttttttttttttttttttttttttttttt</Text>
-                </View>
+                <ArtList
+                   data={this.state.data}
+                    renderItem={({item}) => <Text>{item.title}</Text>}
+                   keyExtractor={(item) => item.id.toString()}
+                />
+
               </>
           ) : (<Loading displayColor="orange">
             <Image style={{ width: 80, height: 80 }} source={{ uri: `http://openweathermap.org/img/wn/09d.icon}@2x.png` }} />
