@@ -80,7 +80,7 @@ class ArtDetail extends React.Component {
         <ScrollView style={styles.scrollview_container}>
           <Image
             style={styles.image}
-            source={{uri: data.urlToImage)}}
+            source={{uri: data.urlToImage}}
           />
           <Text style={styles.title_text}>{data.title}</Text>
           <TouchableOpacity
