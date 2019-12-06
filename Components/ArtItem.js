@@ -7,34 +7,20 @@ import FadeIn from '../Animations/FadeIn'
 
 class ArtItem extends React.Component {
 
-  _displayFavoriteImage() {
-    if (this.props.isArtFavorite) {
-
-      return (
-        <Image
-          style={styles.favorite_image}
-          source={require('../Images/ic_favorite.png')}
-        />
-      )
-    }
-  }
-
   render() {
     const { data, displayDetailForArt } = this.props
     return (
       <FadeIn>
         <TouchableOpacity
           style={styles.main_container}
-          onPress={() => displayDetailForArt(data.source.id)}>
+          onPress={() => displayDetailForArt(data.author)}>
           <Image
             style={styles.image}
             source={{uri: data.urlToImage}}
           />
           <View style={styles.content_container}>
-            <View style={styles.header_container}>
-              {this._displayFavoriteImage()}
-              <Text style={styles.title_text}>{data.title}</Text>
-
+            <View style={styles.date_container}>
+              <Text style={styles.date_text}>{data.title}</Text>
             </View>
             <View style={styles.date_container}>
               <Text style={styles.date_text}>{data.publishedAt}</Text>

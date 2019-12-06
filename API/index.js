@@ -24,7 +24,7 @@ let getWeatherByCity = (q = 'bitcoin') =>{
 }
 
 let findArticle = (id) => {
-    return axios.get(url +id);
+    return axios.get(url + id);
 };
 
 export default {

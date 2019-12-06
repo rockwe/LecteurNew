@@ -32,9 +32,9 @@ class ArtDetail extends React.Component {
       return
     }
     this.setState({ isLoading: true })
-    getFilmDetailFromApi(this.props.navigation.state.params.idArt).then(data => {
+    API.findArticle(this.props.navigation.state.params.idArt).then(data => {
       this.setState({
-        data: data,
+        data: data.articles,
         isLoading: false
       }, () => {  })
     })

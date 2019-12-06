@@ -14,9 +14,9 @@ class ArtList extends React.Component {
     }
   }
 
-  _displayDetailForFilm = (idFilm) => {
-    console.log("Display articles " + idFilm)
-    this.props.navigation.navigate('FilmDetail', {idFilm: idFilm})
+  _displayDetailForArt = (idArt) => {
+    console.log("Display articles " + idArt)
+    this.props.navigation.navigate('ArtDetail', {id: idArt})
   }
 
   render() {
@@ -25,19 +25,14 @@ class ArtList extends React.Component {
           style={styles.list}
           data={this.props.data}
           extraData={this.props.favoritesArt}
-          keyExtractor={(item) => item.author}
+          keyExtractor={(item) => item.author.toString()}
           renderItem={({item}) => (
             <ArtItem
               data={item}
-
+              displayDetailForArt={this._displayDetailForArt}
             />
           )}
-          onEndReachedThreshold={0.5}
-          onEndReached={() => {
-            if (!this.props.favoriteList && this.props.page < this.props.totalPages) {
-              this.props.loadFilms()
-            }
-          }}
+
         />
     )
   }
@@ -51,7 +46,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    favoritesFilm: state.toggleFavorite.favoritesFilm
+    favoritesArt: state.toggleFavorite.favoritesArt
   }
 }
 

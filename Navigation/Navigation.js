@@ -5,7 +5,7 @@ import { StyleSheet, Image } from 'react-native'
 import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialBottomTabNavigator } from "react-navigation-material-bottom-tabs";
-import FilmDetail from '../Components/ArtDetail'
+import ArtDetail from '../Components/ArtDetail'
 import Favorites from '../Components/Favorites'
 import Settings from '../Components/settings'
 import Accueil from '../Components/Accueil';
@@ -18,7 +18,7 @@ const SearchStackNavigator = createStackNavigator({
     }
   },
   FilmDetail: {
-    screen: FilmDetail
+    screen: ArtDetail
   }
 })
 
@@ -30,7 +30,7 @@ const FavoritesStackNavigator = createStackNavigator({
     }
   },
   FilmDetail: {
-    screen: FilmDetail
+    screen: ArtDetail
   }
 })
 
@@ -42,7 +42,7 @@ const NewsStackNavigator = createStackNavigator({
     },
   },
   FilmDetail: {
-    screen: FilmDetail,
+    screen: ArtDetail,
   }
 })
 
