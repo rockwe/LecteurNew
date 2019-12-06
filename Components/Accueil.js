@@ -43,7 +43,7 @@ class Accueil extends React.Component {
 
   _displayDetailForFilm = (idArt) => {
     console.log("Display Art with id " + idArt)
-    this.props.navigation.navigate("ArtDetail", { idFilm: idArt})
+    this.props.navigation.navigate("ArtDetail", { idArt: idArt})
   }
 
 

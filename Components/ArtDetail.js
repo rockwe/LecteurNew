@@ -9,53 +9,34 @@ import EnlargeShrink from '../Animations/EnlargeShrink'
 
 class ArtDetail extends React.Component {
 
-  static navigationOptions = ({ navigation }) => {
-      const { params } = navigation.state
-      if (params.film != undefined && Platform.OS === 'ios') {
-        return {
-            headerRight: <TouchableOpacity
-                            style={styles.share_touchable_headerrightbutton}
-                            onPress={() => params.shareFilm()}>
-                            <Image
-                              style={styles.share_image}
-                              source={require('../Images/ic_share.png')} />
-                          </TouchableOpacity>
-        }
-      }
-  }
+
 
   constructor(props) {
     super(props)
     this.state = {
-      film: undefined,
+      data: undefined,
       isLoading: false
     }
 
     this._toggleFavorite = this._toggleFavorite.bind(this)
-    this._shareFilm = this._shareFilm.bind(this)
   }
 
-  _updateNavigationParams() {
-    this.props.navigation.setParams({
-      shareFilm: this._shareFilm,
-      film: this.state.film
-    })
-  }
+
 
   componentDidMount() {
-    const favoriteFilmIndex = this.props.favoritesFilm.findIndex(item => item.id === this.props.navigation.state.params.idFilm)
-    if (favoriteFilmIndex !== -1) {
+    const favoriteArtIndex = this.props.favoritesArt.findIndex(item => item.author === this.props.navigation.state.params.idArt)
+    if (favoriteArtIndex !== -1) {
       this.setState({
-        film: this.props.favoritesFilm[favoriteFilmIndex]
-      }, () => { this._updateNavigationParams() })
+        film: this.props.favoritesFilm[favoriteArtIndex]
+      }, () => {  })
       return
     }
     this.setState({ isLoading: true })
-    getFilmDetailFromApi(this.props.navigation.state.params.idFilm).then(data => {
+    getFilmDetailFromApi(this.props.navigation.state.params.idArt).then(data => {
       this.setState({
-        film: data,
+        data: data,
         isLoading: false
-      }, () => { this._updateNavigationParams() })
+      }, () => {  })
     })
   }
 
@@ -77,7 +58,7 @@ class ArtDetail extends React.Component {
   _displayFavoriteImage() {
     var sourceImage = require('../Images/ic_favorite_border.png')
     var shouldEnlarge = false // Par défaut, si le film n'est pas en favoris, on veut qu'au clic sur le bouton, celui-ci s'agrandisse => shouldEnlarge à true
-    if (this.props.favoritesFilm.findIndex(item => item.id === this.state.film.id) !== -1) {
+    if (this.props.favoritesArt.findIndex(item => item.author === this.state.data.author) !== -1) {
       sourceImage = require('../Images/ic_favorite.png')
       shouldEnlarge = true // Si le film est dans les favoris, on veut qu'au clic sur le bouton, celui-ci se rétrécisse => shouldEnlarge à false
     }
@@ -93,64 +74,35 @@ class ArtDetail extends React.Component {
   }
 
   _displayFilm() {
-    const { film } = this.state
-    if (film != undefined) {
+    const { data } = this.state
+    if (data != undefined) {
       return (
         <ScrollView style={styles.scrollview_container}>
           <Image
             style={styles.image}
-            source={{uri: getImageFromApi(film.backdrop_path)}}
+            source={{uri: data.urlToImage)}}
           />
-          <Text style={styles.title_text}>{film.title}</Text>
+          <Text style={styles.title_text}>{data.title}</Text>
           <TouchableOpacity
               style={styles.favorite_container}
               onPress={() => this._toggleFavorite()}>
               {this._displayFavoriteImage()}
           </TouchableOpacity>
-          <Text style={styles.description_text}>{film.overview}</Text>
-          <Text style={styles.default_text}>Sorti le {moment(new Date(film.release_date)).format('DD/MM/YYYY')}</Text>
-          <Text style={styles.default_text}>Note : {film.vote_average} / 10</Text>
-          <Text style={styles.default_text}>Nombre de votes : {film.vote_count}</Text>
-          <Text style={styles.default_text}>Budget : {numeral(film.budget).format('0,0[.]00 $')}</Text>
-          <Text style={styles.default_text}>Genre(s) : {film.genres.map(function(genre){
-              return genre.name;
-            }).join(" / ")}
-          </Text>
-          <Text style={styles.default_text}>Companie(s) : {film.production_companies.map(function(company){
-              return company.name;
-            }).join(" / ")}
-          </Text>
+          <Text style={styles.description_text}>{data.description}</Text>
+          <Text style={styles.default_text}>Sorti le {moment(new Date(data.publishedAt)).format('DD/MM/YYYY')}</Text>
         </ScrollView>
       )
     }
   }
 
-  _shareFilm() {
-    const { film } = this.state
-    Share.share({ title: film.title, message: film.overview })
-  }
 
-  _displayFloatingActionButton() {
-    const { film } = this.state
-    if (film != undefined && Platform.OS === 'android') {
-      return (
-        <TouchableOpacity
-          style={styles.share_touchable_floatingactionbutton}
-          onPress={() => this._shareFilm()}>
-          <Image
-            style={styles.share_image}
-            source={require('../Images/ic_share.png')} />
-        </TouchableOpacity>
-      )
-    }
-  }
+
 
   render() {
     return (
       <View style={styles.main_container}>
         {this._displayLoading()}
         {this._displayFilm()}
-        {this._displayFloatingActionButton()}
       </View>
     )
   }
